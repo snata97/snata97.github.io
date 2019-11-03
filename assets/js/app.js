@@ -10,7 +10,7 @@ function getCities(val) {
         } else { // если всё прошло гладко, выводим результат
             arr = JSON.parse(xhr.response);
             arr = (arr.result);
-            //console.log(arr);
+            console.log(arr);
         } 
         };
 }
@@ -36,7 +36,14 @@ function autocomplete(inp) {
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
       for (i = 0; i < arr.length && document.getElementById(this.id + "autocomplete-list").childNodes.length < 3; i++) {
-          if((typeof arr[i].localityType) === "undefined" || (arr[i].localityType.code).localeCompare("city-city")) continue;
+          let localityTypeUndefined = ((typeof arr[i].localityType) === "undefined");
+          if (localityTypeUndefined) {
+              continue;
+          }
+          else {
+              let isCity = !(arr[i].localityType.code).localeCompare("city-city");//0 if equal
+              if (! isCity) continue;
+          }
         /*check if the item starts with the same letters as the text field value:*/
             var name = arr[i].name;
             if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
@@ -82,9 +89,6 @@ function autocomplete(inp) {
           /*and simulate a click on the "active" item:*/
           if (x) x[currentFocus].click();
         }
-      } else if (e.keyCode == 8) {
-        /*If the Backspace key is pressed, prevent the form from being submitted,*/
-        autocomplete(document.getElementById("myInput"));
       }
   });
   function addActive(x) {
