@@ -1,8 +1,8 @@
-let arr = [];
+﻿let arr = [];
 
 function getCities(val) { 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://geohelper.info/api/v1/cities?apiKey=btc2PPXHRsxBRUatmucmp3yc4e3skcft&locale%5Blang%5D=ru&locale%5BfallbackLang%5D=en&filter[name]=' + val + '&order[by]=population&order[dir]=desc');
+        xhr.open('GET', 'https://geohelper.info/api/v1/cities?apiKey=btc2PPXHRsxBRUatmucmp3yc4e3skcft&locale%5Blang%5D=ru&locale%5BfallbackLang%5D=en&filter[name]=' + val + '&order[by]=population&order[dir]=desc');
         xhr.send();
         xhr.onload = function() {
         if (xhr.status !== 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
