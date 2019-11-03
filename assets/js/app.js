@@ -2,7 +2,7 @@ let arr = [];
 
 function getCities(val) { 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://geohelper.info/api/v1/cities?apiKey=btc2PPXHRsxBRUatmucmp3yc4e3skcft&locale%5Blang%5D=ru&locale%5BfallbackLang%5D=en&filter[name]=' + val + '&order[by]=population&order[dir]=desc');
+        xhr.open('GET', 'http://geohelper.info/api/v1/cities?apiKey=btc2PPXHRsxBRUatmucmp3yc4e3skcft&locale%5Blang%5D=ru&locale%5BfallbackLang%5D=en&filter[name]=' + val + '&order[by]=population&order[dir]=desc&pagination[limit]=100');
         xhr.send();
         xhr.onload = function() {
         if (xhr.status !== 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
@@ -10,7 +10,7 @@ function getCities(val) {
         } else { // если всё прошло гладко, выводим результат
             arr = JSON.parse(xhr.response);
             arr = (arr.result);
-            console.log(arr);
+            //console.log(arr);
         } 
         };
 }
@@ -22,11 +22,11 @@ function autocomplete(inp) {
   /*execute a function when someone writes in the text field:*/
   inp.addEventListener("input", function(e) {
       var a, b, i, val = this.value;
-      getCities(val);
-      console.log(arr);
+      //console.log(arr);
       /*close any already open lists of autocompleted values*/
       closeAllLists();
-      if (!val) { return false;}
+      if (val) { getCities(val);}
+      else { return false;}
       currentFocus = -1;
       /*create a DIV element that will contain the items (values):*/
       a = document.createElement("DIV");
@@ -35,10 +35,9 @@ function autocomplete(inp) {
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
-      
-      for (i = 0; i < arr.length && (document.getElementById(this.id + "autocomplete-list").childNodes.length) != 3; i++) {
+      for (i = 0; i < arr.length && document.getElementById(this.id + "autocomplete-list").childNodes.length < 3; i++) {
+          if((typeof arr[i].localityType) === "undefined" || (arr[i].localityType.code).localeCompare("city-city")) continue;
         /*check if the item starts with the same letters as the text field value:*/
-        //if(arr[i].localityType.localizedNames.en == 'city'){
             var name = arr[i].name;
             if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
               /*create a DIV element for each matching element:*/
@@ -58,7 +57,6 @@ function autocomplete(inp) {
               });
              a.appendChild(b);
             }
-       // }
       }
   });
   /*execute a function presses a key on the keyboard:*/
@@ -84,6 +82,9 @@ function autocomplete(inp) {
           /*and simulate a click on the "active" item:*/
           if (x) x[currentFocus].click();
         }
+      } else if (e.keyCode == 8) {
+        /*If the Backspace key is pressed, prevent the form from being submitted,*/
+        autocomplete(document.getElementById("myInput"));
       }
   });
   function addActive(x) {
