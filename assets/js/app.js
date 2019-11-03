@@ -10,7 +10,6 @@ function getCities(val) {
         } else { // если всё прошло гладко, выводим результат
             arr = JSON.parse(xhr.response);
             arr = (arr.result);
-            console.log(arr);
         } 
         };
 }
