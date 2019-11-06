@@ -1,6 +1,6 @@
-let arr = [];
+var arr = [];
 
-function getCities(cityValue) { 
+function getCities(cityValue) {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address');
         xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
@@ -9,7 +9,7 @@ function getCities(cityValue) {
         var params = JSON.stringify(
             {
                 query : cityValue,
-                count : '200',
+                count : 20,
                 from_bound: { "value": "city" },
                 to_bound: { "value": "city" }
             }
@@ -20,7 +20,7 @@ function getCities(cityValue) {
             alert(`Ошибка ${xhr.status}: ${xhr.statusText}`); // Например, 404: Not Found
         } else { // если всё прошло гладко, выводим результат
             arr = (JSON.parse(xhr.response)).suggestions;
-            console.log(arr);
+            //console.log(arr);
         } 
         };
 }
