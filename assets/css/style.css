@@ -6,7 +6,9 @@ body {
   /*the container must be positioned relative:*/
   position: relative;
   display: inline-block;
+  width:400px;
 }
+
 input {
   border: 1px solid transparent;
   background-color: #f1f1f1;
