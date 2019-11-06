@@ -1,15 +1,26 @@
 let arr = [];
 
-function getCities(val) { 
+function getCities(cityValue) { 
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://geohelper.info/api/v1/cities?apiKey=btc2PPXHRsxBRUatmucmp3yc4e3skcft&locale%5Blang%5D=ru&locale%5BfallbackLang%5D=en&filter[name]=' + val + '&order[by]=population&order[dir]=desc&pagination[limit]=100');
-        xhr.send();
+        xhr.open('POST', 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address');
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.setRequestHeader('Authorization', 'Token c75c303d3b5f500995a3a79c44ee7ba394f195f8');
+        var params = JSON.stringify(
+            {
+                query : cityValue,
+                count : '200',
+                from_bound: { "value": "city" },
+                to_bound: { "value": "city" }
+            }
+        );
+        xhr.send(params);
         xhr.onload = function() {
         if (xhr.status !== 200) { // анализируем HTTP-статус ответа, если статус не 200, то произошла ошибка
             alert(`Ошибка ${xhr.status}: ${xhr.statusText}`); // Например, 404: Not Found
         } else { // если всё прошло гладко, выводим результат
-            arr = JSON.parse(xhr.response);
-            arr = (arr.result);
+            arr = (JSON.parse(xhr.response)).suggestions;
+            console.log(arr);
         } 
         };
 }
@@ -34,17 +45,10 @@ function autocomplete(inp) {
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
-      for (i = 0; i < arr.length && document.getElementById(this.id + "autocomplete-list").childNodes.length < 3; i++) {
-          let localityTypeUndefined = ((typeof arr[i].localityType) === "undefined");
-          if (localityTypeUndefined) {
-              continue;
-          }
-          else {
-              let isCity = !(arr[i].localityType.code).localeCompare("city-city");//0 if equal
-              if (! isCity) continue;
-          }
+      for (i = 0; i < arr.length && document.getElementById(this.id + "autocomplete-list").childNodes.length < 3 ; i++) {
         /*check if the item starts with the same letters as the text field value:*/
-            var name = arr[i].name;
+          if(arr[i].data.city_type_full != "город") continue;
+            var name = arr[i].data.city;
             if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
               /*create a DIV element for each matching element:*/
               b = document.createElement("DIV");
