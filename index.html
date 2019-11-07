@@ -1,22 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Weather</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=fe6ff201-9007-40b4-8641-4ee03d369364" type="text/javascript"></script>
+    <script src="assets/js/suggest.js" type="text/javascript"></script>
     <link rel="stylesheet" href="/assets/css/style.css">  
 </head>
 <body>
-    <form autocomplete="off">
-        <div class="autocomplete">
-            <input id="myInput" type="text" name="myCity" placeholder="Город">
-        </div>
-        <input type="submit">
-        </label>
-    </form>
-    
-    
-<!-- JS -->
-    <script src="assets/js/app.js" ></script>
+<input type="text" id="suggest1" placeholder="Введите название города">
+<button type="submit">Найти</button>
 </body>
 </html>
