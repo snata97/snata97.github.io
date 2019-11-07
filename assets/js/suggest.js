@@ -5,4 +5,6 @@ function init() {
     var suggestView1 = new ymaps.SuggestView('suggest1',{
         results: 3,
     });
+    // Задаем собственный провайдер поисковых подсказок и максимальное количество результатов.
+   // var suggestView2 = new ymaps.SuggestView('suggest2', {provider: provider, results: 3});
 }
