@@ -16,7 +16,7 @@ function init() {
     suggestView1.events.add('select', function (event) {
         getCoords(event.get("item").value);
         setTimeout(getWeather,300);
-        setTimeout(setCityAndWeather,2000,event.get("item").displayName);
+        setTimeout(setCityAndWeather,3000,event.get("item").displayName);
     });
 }
 
