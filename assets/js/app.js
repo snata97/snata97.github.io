@@ -38,7 +38,6 @@ function getCoords(cityValue) {
 }
 
 function getWeather(point){
-    console.log(point);
     fetch('https://api.openweathermap.org/data/2.5/weather?lat='+point[0]+'&lon='+point[1]+'&appid=623d727b9cee4746bf0c777c2743f7dd')
           .then(res => res.json())
           .then(json => outputWeather(json.main.temp));
@@ -65,12 +64,13 @@ function removeCities() {
 
 function addCities(cities) {
     let countsCities = cities.length;
+    
     for(let i = 0; i < 3 && i < countsCities; i++){
         let region_with_type = cities[i].data.region_with_type;
         let city = cities[i].data.city;
         let city_name_full = cities[i].value;
         let cityForLi;
-        if(city.toUpperCase() === region_with_type.toUpperCase()){
+        if(city_name_full.toUpperCase() === region_with_type.toUpperCase()){
             cityForLi = city;
         }
         else {
