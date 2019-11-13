@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Weather</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=fe6ff201-9007-40b4-8641-4ee03d369364" type="text/javascript"></script>
     <link rel="stylesheet" href="/assets/css/style.css">  
 </head>
 <body>
-<div class="container">
+   <div class="container">
     <div class="input">
-        <input type="text" id="city" placeholder="Введите название города">
+        <input type="text" id="inputCity" placeholder="Введите название города">
+        <ul id="ulCities">
+        </ul>
     </div>
-    <!--<button type="submit" id="btn">Найти</button>-->
     <div class="weather disp_none" id="weather">
         <h3 class="weather__nameCity" id="nameCity"></h3>
         <div class="weather__temperature" id="temperature"></div>
     </div>
 </div>
-<script src="assets/js/suggest.js" type="text/javascript"></script>
+<!-- JS -->
+    <script src="assets/js/app.js" ></script>
 </body>
 </html>
