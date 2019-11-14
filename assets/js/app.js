@@ -38,7 +38,8 @@ function getCoords(cityValue) {
 }
 
 function getWeather(point){
-    fetch('https://api.openweathermap.org/data/2.5/weather?lat='+point[0]+'&lon='+point[1]+'&appid=623d727b9cee4746bf0c777c2743f7dd')
+    console.log(point);
+    fetch('https://api.openweathermap.org/data/2.5/weather?lat='+point[1]+'&lon='+point[0]+'&appid=623d727b9cee4746bf0c777c2743f7dd')
           .then(res => res.json())
           .then(json => outputWeather(json.main.temp));
 }
@@ -101,3 +102,4 @@ function outputWeather(tempInKelvin){
 input.addEventListener('input', update);
 
 
+ы
