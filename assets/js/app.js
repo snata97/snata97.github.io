@@ -146,5 +146,5 @@ function setTempretureOnMap(coords, tempreture){
     myMap.setCenter([coords[1],coords[0]]);
     let mapIcon = myMap.geoObjects.get(0);
     mapIcon.geometry.setCoordinates([coords[1], coords[0]]);
-    mapIcon.properties.set("iconContent",tempreture);
+    mapIcon.properties.set("iconContent",tempreture+" °C");
 }
