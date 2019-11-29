@@ -5,18 +5,19 @@ document.querySelectorAll('.ulCities__item').forEach(li => {
 ymaps.ready(init);
 let myMap;
 
-function getDataFromApi(method, url, headers, data){
+function getDataFromApi(body){
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        if(method=="POST"){
-            for(let headerKey in headers){
-                xhr.setRequestHeader(headerKey, headers[headerKey]);
-            }
-            xhr.send(data);
-        }
-        else{
+        xhr.open(body.method, body.url);
+        if(body.method=="GET"){
             xhr.send();
+        }
+        else
+        {
+            for (let [key, value] of Object.entries(body.headers)) {
+                xhr.setRequestHeader(key, value);
+            }
+            xhr.send(body.data);
         }
         xhr.onload = () => resolve(JSON.parse(xhr.responseText));
         xhr.onerror = () => reject(xhr.statusText);
@@ -36,15 +37,29 @@ function getCities(cityValue) {
             "Accept": "application/json",
             "Authorization": "Token c75c303d3b5f500995a3a79c44ee7ba394f195f8",
         };
-        return getDataFromApi("POST", "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address", headers, data);
+        let body = {
+            method: "POST",
+            url: "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address",
+            headers: headers,
+            data: data,
+        };
+        return getDataFromApi(body);
 }
 
 function getCoords(cityValue) {
-    return getDataFromApi("GET", "https://geocode-maps.yandex.ru/1.x?apikey=fe6ff201-9007-40b4-8641-4ee03d369364&geocode="+cityValue+"&format=json", undefined, undefined);
+    let body = {
+        method: "GET",
+        url: "https://geocode-maps.yandex.ru/1.x?apikey=fe6ff201-9007-40b4-8641-4ee03d369364&geocode="+cityValue+"&format=json",
+    };
+    return getDataFromApi(body);
 }
 
 function getWeather(point){
-    return getDataFromApi("GET", "https://api.openweathermap.org/data/2.5/weather?lat="+point[1]+"&lon="+point[0]+"&appid=623d727b9cee4746bf0c777c2743f7dd", undefined, undefined);
+    let body = {
+        method: "GET",
+        url: "https://api.openweathermap.org/data/2.5/weather?lat="+point[1]+"&lon="+point[0]+"&appid=623d727b9cee4746bf0c777c2743f7dd",
+    };
+    return getDataFromApi(body);
 }
 
 function update({
@@ -54,7 +69,7 @@ function update({
 }) {
     getCities(value).then(
         response => displayResult(response.suggestions),
-        error => console.log("Rejected: ${error}" )
+        error => console.log("Rejected1: ${error}" )
     );
 }
 
@@ -65,17 +80,17 @@ function getCity(){
     hideCities();
     getCoords(city).then(
         response => {
-            coords = response.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ', 2);// небезопасно?
+            coords = response.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ', 2);// небезопасно
             return getWeather(coords);
         },
-        error => console.log("Rejected: ${error}"),
+        error => console.log("Rejected2: ${error}"),
     ).then(
         response =>{
             let tempreture = getCelsius(response.main.temp);
             outputWeather(tempreture);
             return setTempretureOnMap(coords, tempreture);
         },
-        error => console.log("Rejected: ${error}"),
+        error => console.log("Rejected3: ${error}"),
     );
 }
 
