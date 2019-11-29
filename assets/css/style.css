@@ -55,6 +55,10 @@ input {
     border-radius: 40px;
 }
 
+.weather:empty{
+    display:none;
+}
+
 .weather__nameCity {
     font-size: 30px;
 }
@@ -87,6 +91,10 @@ ul > li {
     padding: 10px;
     border-bottom: 1px solid rgb(195, 195, 195);
     cursor: pointer;
+}
+
+li:empty {
+    display:none;
 }
 
 li:hover {    
