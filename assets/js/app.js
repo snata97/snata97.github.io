@@ -1,7 +1,14 @@
-document.getElementById("inputCity").addEventListener("input", update);
+//document.getElementsByClassName("inputCity")[0].addEventListener("input", update);
+document.querySelectorAll('.inputCity').forEach(inpCity => {
+    inpCity.addEventListener("input", update);
+});
 document.querySelectorAll('.ulCities__item').forEach(li => {
     li.addEventListener("click", getCity);
 });
+ var selectedInput;
+ var idSelectedInput;
+ var idContainer;
+
 ymaps.ready(init);
 let myMap;
 
@@ -67,6 +74,9 @@ function update({
     value
   }
 }) {
+    selectedInput = document.activeElement;
+    idContainer = selectedInput.parentElement.parentElement.id;
+    idSelectedInput = selectedInput.id;
     getCities(value).then(
         response => displayResult(response.suggestions),
         error => console.log("Rejected1: ${error}" )
@@ -76,7 +86,7 @@ function update({
 function getCity(){
     let city = this.innerHTML;
     let coords;
-    document.getElementById("inputCity").value = city;
+    selectedInput.value = city;
     hideCities();
     getCoords(city).then(
         response => {
@@ -100,7 +110,8 @@ function displayResult(cities){
 }
 
 function hideCities() {
-    let listCities = document.querySelectorAll('#ulCities li');
+    var el = document.querySelector("#"+ idSelectedInput);
+    let listCities = el.parentNode.querySelectorAll(".ulCities li");
     for(let i = 0; i < 3; i++){
         listCities[i].innerHTML="";
     }
@@ -108,7 +119,8 @@ function hideCities() {
 
 function addCities(cities) {
     let countsCities = cities.length;
-    let listCities = document.querySelectorAll('#ulCities li');
+    var el = document.querySelector("#"+ idSelectedInput);
+    let listCities = el.parentNode.querySelectorAll('.ulCities li');
     let cityData;
     for(let i = 0; i < 3 && i < countsCities; i++){
         cityData = cities[i];
@@ -133,13 +145,13 @@ function getCelsius(tempInKelvin){
 }
 
 function outputWeather(tempInCelsius){
-    nameCity.innerHTML = document.getElementById("inputCity").value;
-    temperature.innerHTML = tempInCelsius;
-    weather.classList.remove("display_none");
+    let el = document.querySelector("#"+ idContainer);
+    el.querySelector('.weather__nameCity').innerHTML = selectedInput.value;
+    el.querySelector('.weather__temperature').innerHTML = tempInCelsius;
 }
 
 function init () {
-    myMap = new ymaps.Map("map", {
+    myMap = new ymaps.Map(idContainer+"map", {
         center: [55.76, 37.64],
         zoom: 7
     });

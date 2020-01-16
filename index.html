@@ -9,23 +9,41 @@
     <link rel="stylesheet" href="/assets/css/style.css">  
 </head>
 <body>
-   <div class="container">
-    <div class="input">
-        <input type="text" id="inputCity" placeholder="Введите название города">
-        <ul id="ulCities">
+<div class="container" id="first">
+    <div class="input" id="lala">
+        <input id="firstInput" type="text" class="inputCity" placeholder="Введите название города">
+        <ul class="ulCities">
             <li class="ulCities__item"></li>
             <li class="ulCities__item"></li>
             <li class="ulCities__item"></li>
         </ul>
     </div>
-    <div class="weather display_none" id="weather">
-        <h3 class="weather__nameCity" id="nameCity"></h3>
-        <div class="weather__temperature" id="temperature"></div>
+    <div class="weather">
+        <h3 class="weather__nameCity"></h3>
+        <div class="weather__temperature"></div>
+        <div class="map">
+            <div id="firstmap"></div>
+        </div>
+    </div>
+</div>
+<div class="container" id="second">
+    <div class="input">
+        <input id="secondInput" type="text" class="inputCity" placeholder="Введите название города">
+        <ul class="ulCities">
+            <li class="ulCities__item"></li>
+            <li class="ulCities__item"></li>
+            <li class="ulCities__item"></li>
+        </ul>
+    </div>
+        <div class="weather">
+        <h3 class="weather__nameCity"></h3>
+        <div class="weather__temperature"></div>
         <div class="map">
             <div id="map"></div>
         </div>
     </div>
 </div>
+
 <!-- JS -->
     <script src="assets/js/app.js" ></script>
 </body>
