@@ -4,13 +4,13 @@ body {
 }
 
 html, body {
-            position: relative;
-            width: 100%;
-            height: 95%;
-            padding: 0;
-            margin: 0;
-            font: 16px Arial;
-            background-color: rgb(109, 109, 109);
+    position: relative;
+    width: 100%;
+    height: 95%;
+    padding: 0;
+    margin: 0;
+    font: 16px Arial;
+    background-color: rgb(109, 109, 109);
 }
 
 *,
@@ -25,13 +25,19 @@ h1,h2,h3,h4,h5,h6 {
 
 .container {
     width: 100%;
-    max-width: 1200px;
+/*    max-width: 1200px;*/
     margin: 0 auto;
     padding: 0 15px;
 }
 
+.blockWeather{
+    float: left;
+    width: 48%;
+    margin-right: 25px;
+}
+
 input {
-  width: 800px;
+  width: 600px;
   border: 1px solid transparent;
   background-color: #f1f1f1;
   padding: 10px;
@@ -46,7 +52,7 @@ input {
 
 .weather {
     text-align: center;
-    width: 800px;
+    width: 600px;
     margin: 30px auto;
     padding: 30px;
     background-color: #60e5d0;
@@ -80,7 +86,7 @@ input {
 ul{
     display: inline-block;
     list-style-type: none;
-    width: 800px;
+    width: 600px;
     margin: 0;
     padding: 0;
     z-index: 1000;

@@ -10,7 +10,7 @@ document.querySelectorAll('.ulCities__item').forEach(li => {
  var idContainer;
 
 ymaps.ready(init);
-let myMap;
+let firstMap, secondMap;
 
 function getDataFromApi(body){
     return new Promise((resolve, reject) => {
@@ -151,11 +151,15 @@ function outputWeather(tempInCelsius){
 }
 
 function init () {
-    myMap = new ymaps.Map(idContainer+"map", {
+    firstMap = new ymaps.Map("firstMap", {
         center: [55.76, 37.64],
         zoom: 7
     });
-    myGeoObject = new ymaps.GeoObject({
+    secondMap = new ymaps.Map("secondMap", {
+        center: [55.76, 37.64],
+        zoom: 7
+    });
+    myFirstGeoObject = new ymaps.GeoObject({
         geometry: {
             type: "Point",
             coordinates: [55.76, 37.64]
@@ -165,15 +169,36 @@ function init () {
         }
     }, {
         preset: "islands#blueStretchyIcon"
-    }),
-    myMap.geoObjects.add(myGeoObject);
+    });
+    mySecondGeoObject = new ymaps.GeoObject({
+        geometry: {
+            type: "Point",
+            coordinates: [55.76, 37.64]
+        },
+        properties: {
+            iconContent: "5",
+        }
+    }, {
+        preset: "islands#redStretchyIcon"
+    });
+    firstMap.geoObjects.add(myFirstGeoObject);
+    secondMap.geoObjects.add(mySecondGeoObject);
 }
 
 function setTempretureOnMap(coords, tempreture){
     let lat = coords[1];
-    let lon = coords[0]
-    myMap.setCenter([lat,lon]);
-    let mapIcon = myMap.geoObjects.get(0);
-    mapIcon.geometry.setCoordinates([lat, lon]);
-    mapIcon.properties.set("iconContent",tempreture+" °C");
+    let lon = coords[0];
+    if(idSelectedInput=="firstInput"){
+        firstMap.setCenter([lat,lon]);
+        let mapIcon = firstMap.geoObjects.get(0);
+        mapIcon.geometry.setCoordinates([lat, lon]);
+        mapIcon.properties.set("iconContent",tempreture+" °C");
+    }
+    else {
+        secondMap.setCenter([lat,lon]);
+        let mapIcon = secondMap.geoObjects.get(0);
+        mapIcon.geometry.setCoordinates([lat, lon]);
+        mapIcon.properties.set("iconContent",tempreture+" °C");
+    }
 }
+

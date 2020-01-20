@@ -9,41 +9,42 @@
     <link rel="stylesheet" href="/assets/css/style.css">  
 </head>
 <body>
-<div class="container" id="first">
-    <div class="input" id="lala">
-        <input id="firstInput" type="text" class="inputCity" placeholder="Введите название города">
-        <ul class="ulCities">
-            <li class="ulCities__item"></li>
-            <li class="ulCities__item"></li>
-            <li class="ulCities__item"></li>
-        </ul>
-    </div>
-    <div class="weather">
-        <h3 class="weather__nameCity"></h3>
-        <div class="weather__temperature"></div>
-        <div class="map">
-            <div id="firstmap"></div>
+<div class="container">
+    <div class="blockWeather" id="first">
+        <div class="input" id="lala">
+            <input id="firstInput" type="text" class="inputCity" placeholder="Введите название города">
+            <ul class="ulCities">
+                <li class="ulCities__item"></li>
+                <li class="ulCities__item"></li>
+                <li class="ulCities__item"></li>
+            </ul>
         </div>
-    </div>
-</div>
-<div class="container" id="second">
-    <div class="input">
-        <input id="secondInput" type="text" class="inputCity" placeholder="Введите название города">
-        <ul class="ulCities">
-            <li class="ulCities__item"></li>
-            <li class="ulCities__item"></li>
-            <li class="ulCities__item"></li>
-        </ul>
-    </div>
         <div class="weather">
-        <h3 class="weather__nameCity"></h3>
-        <div class="weather__temperature"></div>
-        <div class="map">
-            <div id="map"></div>
+            <h3 class="weather__nameCity"></h3>
+            <div class="weather__temperature"></div>
+            <div class="map">
+                <div id="firstMap"></div>
+            </div>
+        </div>
+    </div>
+    <div class="blockWeather" id="second">
+        <div class="input">
+            <input id="secondInput" type="text" class="inputCity" placeholder="Введите название города">
+            <ul class="ulCities">
+                <li class="ulCities__item"></li>
+                <li class="ulCities__item"></li>
+                <li class="ulCities__item"></li>
+            </ul>
+        </div>
+            <div class="weather">
+                <h3 class="weather__nameCity"></h3>
+                <div class="weather__temperature"></div>
+                <div class="map">
+                    <div id="secondMap"></div>
+            </div>
         </div>
     </div>
 </div>
-
 <!-- JS -->
     <script src="assets/js/app.js" ></script>
 </body>
