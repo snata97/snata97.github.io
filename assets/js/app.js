@@ -1,16 +1,81 @@
-//document.getElementsByClassName("inputCity")[0].addEventListener("input", update);
-document.querySelectorAll('.inputCity').forEach(inpCity => {
-    inpCity.addEventListener("input", update);
-});
-document.querySelectorAll('.ulCities__item').forEach(li => {
-    li.addEventListener("click", getCity);
-});
- var selectedInput;
- var idSelectedInput;
- var idContainer;
+document.getElementById("createWeather").addEventListener("click", createComponentWeather);
+document.getElementById("destroyWeather").addEventListener("click", destroyComponentWeather);
 
-ymaps.ready(init);
-let firstMap, secondMap;
+let selectedInput;
+let idSelectedInput;
+let idContainer;
+
+function createComponentWeather() {
+    let divBlockWeather = document.createElement("div");
+    divBlockWeather.className = "blockWeather";
+    let counter = document.getElementById("counter").getAttribute("value");
+    counter++;
+    divBlockWeather.id = "Block"+counter;
+    document.getElementById("counter").setAttribute("value",counter);
+    //Input
+    let divInput = document.createElement("div");
+    divInput.className = "input";
+    let inputInputCity = document.createElement("input");
+    inputInputCity.id = "Input" + counter;
+    inputInputCity.placeholder="Введите название города";
+    inputInputCity.className = "inputCity";
+    inputInputCity.type = "text";
+    inputInputCity.oninput = update;
+    let inputUl = document.createElement("ul");
+    inputUl.className = "ulCities";
+    let inputLI1 = document.createElement("li");
+    inputLI1.className = "ulCities__item";
+    inputLI1.onclick = getCity;
+    let inputLI2 = document.createElement("li");
+    inputLI2.className = "ulCities__item";
+    inputLI2.onclick = getCity;
+    let inputLI3 = document.createElement("li");
+    inputLI3.className = "ulCities__item";
+    inputLI3.onclick = getCity;
+    inputUl.appendChild(inputLI1);
+    inputUl.appendChild(inputLI2);
+    inputUl.appendChild(inputLI3);
+    divInput.appendChild(inputInputCity);
+    divInput.appendChild(inputUl);
+    divBlockWeather.appendChild(divInput);
+    //
+    //Weather
+    let divWeather = document.createElement("div");
+    divWeather.className = "weather";
+    let divNameCity = document.createElement("h3");
+    divNameCity.className = "weather__nameCity";
+    let divWeatherTempr = document.createElement("div");
+    divWeatherTempr.className = "weather__temperature";
+    let divMap = document.createElement("div");
+    divMap.className = "map";
+    let divNameMap = document.createElement("div");
+    divNameMap.id = "map" + "Input" + counter;
+    divMap.appendChild(divNameMap);
+    divWeather.appendChild(divNameCity);   
+    divWeather.appendChild(divWeatherTempr);  
+    divWeather.appendChild(divMap);  
+    divBlockWeather.appendChild(divWeather);
+    //
+    document.body.appendChild(divBlockWeather);
+}
+
+function update({
+  target: {
+    value
+  }
+}) {
+    selectedInput = document.activeElement;
+    idContainer = selectedInput.parentElement.parentElement.id;
+    idSelectedInput = selectedInput.id;
+    getCities(value).then(
+        response => displayResult(response.suggestions),
+        error => console.log("Rejected1: ${error}" )
+    );
+}
+function destroyComponentWeather(){
+    delete mycar;
+    document.getElementsByClassName("blockWeather")[0].remove();
+}
 
 function getDataFromApi(body){
     return new Promise((resolve, reject) => {
@@ -69,23 +134,10 @@ function getWeather(point){
     return getDataFromApi(body);
 }
 
-function update({
-  target: {
-    value
-  }
-}) {
-    selectedInput = document.activeElement;
-    idContainer = selectedInput.parentElement.parentElement.id;
-    idSelectedInput = selectedInput.id;
-    getCities(value).then(
-        response => displayResult(response.suggestions),
-        error => console.log("Rejected1: ${error}" )
-    );
-}
-
 function getCity(){
     let city = this.innerHTML;
     let coords;
+    ymaps.ready(init);
     selectedInput.value = city;
     hideCities();
     getCoords(city).then(
@@ -151,15 +203,11 @@ function outputWeather(tempInCelsius){
 }
 
 function init () {
-    firstMap = new ymaps.Map("firstMap", {
+    window["Map"+ idSelectedInput] = new ymaps.Map("map"+idSelectedInput, {
         center: [55.76, 37.64],
         zoom: 7
     });
-    secondMap = new ymaps.Map("secondMap", {
-        center: [55.76, 37.64],
-        zoom: 7
-    });
-    myFirstGeoObject = new ymaps.GeoObject({
+    window["myGeoObject"+ idSelectedInput] = new ymaps.GeoObject({
         geometry: {
             type: "Point",
             coordinates: [55.76, 37.64]
@@ -170,35 +218,16 @@ function init () {
     }, {
         preset: "islands#blueStretchyIcon"
     });
-    mySecondGeoObject = new ymaps.GeoObject({
-        geometry: {
-            type: "Point",
-            coordinates: [55.76, 37.64]
-        },
-        properties: {
-            iconContent: "5",
-        }
-    }, {
-        preset: "islands#redStretchyIcon"
-    });
-    firstMap.geoObjects.add(myFirstGeoObject);
-    secondMap.geoObjects.add(mySecondGeoObject);
+     window["Map"+ idSelectedInput].geoObjects.add(window["myGeoObject"+ idSelectedInput]);
 }
 
 function setTempretureOnMap(coords, tempreture){
     let lat = coords[1];
     let lon = coords[0];
-    if(idSelectedInput=="firstInput"){
-        firstMap.setCenter([lat,lon]);
-        let mapIcon = firstMap.geoObjects.get(0);
-        mapIcon.geometry.setCoordinates([lat, lon]);
-        mapIcon.properties.set("iconContent",tempreture+" °C");
-    }
-    else {
-        secondMap.setCenter([lat,lon]);
-        let mapIcon = secondMap.geoObjects.get(0);
-        mapIcon.geometry.setCoordinates([lat, lon]);
-        mapIcon.properties.set("iconContent",tempreture+" °C");
-    }
+    (window["Map"+ idSelectedInput]).setCenter([lat,lon]);
+    window["mapIcon"+idSelectedInput] = window["Map"+ idSelectedInput].geoObjects.get(0);
+    window["mapIcon"+idSelectedInput].geometry.setCoordinates([lat, lon]);
+    window["mapIcon"+idSelectedInput].properties.set("iconContent",tempreture+" °C");
 }
+
 

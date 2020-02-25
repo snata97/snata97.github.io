@@ -9,43 +9,11 @@
     <link rel="stylesheet" href="/assets/css/style.css">  
 </head>
 <body>
-<div class="container">
-    <div class="blockWeather" id="first">
-        <div class="input" id="lala">
-            <input id="firstInput" type="text" class="inputCity" placeholder="Введите название города">
-            <ul class="ulCities">
-                <li class="ulCities__item"></li>
-                <li class="ulCities__item"></li>
-                <li class="ulCities__item"></li>
-            </ul>
-        </div>
-        <div class="weather">
-            <h3 class="weather__nameCity"></h3>
-            <div class="weather__temperature"></div>
-            <div class="map">
-                <div id="firstMap"></div>
-            </div>
-        </div>
-    </div>
-    <div class="blockWeather" id="second">
-        <div class="input">
-            <input id="secondInput" type="text" class="inputCity" placeholder="Введите название города">
-            <ul class="ulCities">
-                <li class="ulCities__item"></li>
-                <li class="ulCities__item"></li>
-                <li class="ulCities__item"></li>
-            </ul>
-        </div>
-            <div class="weather">
-                <h3 class="weather__nameCity"></h3>
-                <div class="weather__temperature"></div>
-                <div class="map">
-                    <div id="secondMap"></div>
-            </div>
-        </div>
-    </div>
-</div>
+<button id="createWeather">Создать экземпляр Weather</button>
+<button id="destroyWeather">Уничтожить экземпляр Weather</button>
+<div id="counter" display="none" value="-1"></div>
 <!-- JS -->
+    <script src="assets/js/app2.js" ></script>
     <script src="assets/js/app.js" ></script>
 </body>
 </html>
